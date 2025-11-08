@@ -1,0 +1,120 @@
+body{
+  background-color: #F2ECD8;
+}
+
+
+/* efecto popup rebote */
+
+@keyframes popMedal {
+  0% { transform: scale(0.7);}
+  60% { transform: scale(1.08);}
+  100% { transform: scale(1);}
+}
+.animate-pop {
+  animation: popMedal 0.45s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+/* ---------------- */
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: scale(0.95); visibility: visible;}
+  16.67% { opacity: 1; transform: scale(1); visibility: visible;}
+  83.33% { opacity: 1; transform: scale(1); visibility: visible;}
+  99.99% { opacity: 0; transform: scale(0.95); visibility: visible;}
+  100% { opacity: 0; transform: scale(0.95); visibility: hidden;}
+}
+.fadeIn {
+  animation: fadeIn 6s ease-out forwards;
+  visibility: hidden;
+}
+
+
+/* Efecto de hundimiento al hacer clic/tap */
+.tap-effect {
+  transition: transform 0.12s cubic-bezier(.4, 0, .2, 1);
+}
+
+.tap-effect:active {
+  transform: scale(0.95);
+}
+
+.title{
+  font-family: "Pacifico", cursive;
+  text-align: center;
+  font-size: 3em;
+  margin-top: 40px;
+  color: #BF5672;
+}
+
+.subtitle-img{
+  text-align: center;
+  margin-top: 40px;
+}
+
+.subtitle-img img{
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 20%;
+}
+
+.start-button{
+  font-family: "Freckle Face", system-ui;
+  color: #F2BF80;
+  text-align: center;
+  font-size: 3em;
+  margin: 80px auto;
+  width: 160px;
+  padding: 10px;
+  background-color: #BF5672;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.icon-play {
+  margin-left: 10px;
+  color: #F2BF80;
+}
+
+/* Pantalla de pregunta */
+.question-container {
+  margin: 60px auto;
+  max-width: 600px;
+  position: relative;
+}
+
+.question-label {
+  font-family: "Freckle Face", system-ui;
+  background-color: #F2994A;
+  color: white;
+  padding: 8px 25px;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 1.4em;
+  position: relative;
+  left: 30px;
+  top: 20px;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.speech-bubble {
+  background-color: #FFFEF2;
+  border-radius: 60% 40% 40% 60% / 50% 60% 40% 50%;
+  padding: 60px 40px 40px 40px;
+  min-height: 200px;
+  margin-top: -10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.bubble-content {
+  font-family: "Freckle Face", system-ui;
+  font-size: 2.1em;
+  color: #F28157;
+  text-align: center;
+  padding: 50px;
+}
+

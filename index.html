@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Comic+Relief:wght@400;700&family=Exo:ital,wght@0,100..900;1,100..900&family=Geologica:wght@100..900&family=Germania+One&family=Outfit:wght@100..900&family=Pacifico&family=Potta+One&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Comic+Relief:wght@400;700&family=Exo:ital,wght@0,100..900;1,100..900&family=Freckle+Face&family=Geologica:wght@100..900&family=Germania+One&family=Outfit:wght@100..900&family=Pacifico&family=Potta+One&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/c5ee713d6d.js" crossorigin="anonymous"></script>
+<title>QuizInes</title>
+</head>
+<body>
+  <div class="title animate-pop">QuizGame</div>
+  <!-- imagen pegi -->
+  <div class="subtitle-img fadeIn"><img src="imgs/pegi.png" alt="pegi"></div>
+
+
+  <!-- Boton de start -->
+  <div id="startScreen">
+    <div class="start-button animate-pop tap-effect">Start <i class="fa-solid fa-play icon-play"></i></div>
+  </div>
+
+  <!-- Pantalla de pregunta -->
+  <div id="questionScreen" style="display: none;">
+    <div class="question-container">
+      <div class="question-label">Pregunta 1</div>
+      <div class="speech-bubble">
+        <div class="bubble-content">
+          <!-- Aquí va el contenido de la pregunta -->
+           Como se llamó tu primer perro?
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
