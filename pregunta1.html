@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Comic+Relief:wght@400;700&family=Exo:ital,wght@0,100..900;1,100..900&family=Freckle+Face&family=Geologica:wght@100..900&family=Germania+One&family=Outfit:wght@100..900&family=Pacifico&family=Potta+One&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/c5ee713d6d.js" crossorigin="anonymous"></script>
+  <title>QuizGame - Pregunta 1</title>
+</head>
+<body>
+  <!-- Pantalla de pregunta -->
+  <div id="questionScreen">
+    <div class="question-container animate-pop">
+      <div class="question-label">Pregunta 1</div>
+      <div class="speech-bubble">
+        <div class="bubble-content">
+          <!-- Aquí va el contenido de la pregunta -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor de respuestas -->
+    <div id="answers-container" class="animate-pop"></div>
+
+    <!-- Mensaje de error -->
+    <div id="error-message" class="error-message" style="display: none;"></div>
+
+    <!-- boton para volver a menu -->
+    <a href="index.html"><div class="back-button tap-effect"><i class="fa-solid fa-backward-step back"></i>Inicio</div></a>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="questions.js"></script>
+</body>
+</html>
