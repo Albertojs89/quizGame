@@ -1,26 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Comic+Relief:wght@400;700&family=Exo:ital,wght@0,100..900;1,100..900&family=Geologica:wght@100..900&family=Germania+One&family=Outfit:wght@100..900&family=Pacifico&family=Potta+One&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Comic+Relief:wght@400;700&family=Exo:ital,wght@0,100..900;1,100..900&family=Freckle+Face&family=Geologica:wght@100..900&family=Germania+One&family=Outfit:wght@100..900&family=Pacifico&family=Potta+One&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/c5ee713d6d.js" crossorigin="anonymous"></script>
-<title>QuizInes</title>
+<meta charset="utf-8">
+<title>HeroQuest – Sala de los Pasos Fugaces</title>
+
+<style>
+  body{
+    margin:0;
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    background:#0b0e14;
+    font-family:system-ui, sans-serif;
+    color:#eee;
+  }
+
+  .wrap{
+    background:#121827;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    padding:16px;
+    width:320px;
+  }
+
+  h1{
+    font-size:14px;
+    margin:0 0 8px;
+    text-align:center;
+    font-weight:600;
+  }
+
+  .hud{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:10px;
+    color:#ccc;
+  }
+
+  .board{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(5,1fr);
+    gap:8px;
+  }
+
+  .tile{
+    aspect-ratio:1/1;
+    border-radius:10px;
+    background:#1a2438;
+    border:1px solid rgba(255,255,255,.08);
+    cursor:pointer;
+    transition:.08s;
+  }
+
+  .tile.flash{
+    background:#ffd500;
+    box-shadow:0 0 18px rgba(255,213,0,.8);
+  }
+
+  .tile.correct{
+    background:#c9b400;
+  }
+
+  .tile.wrong{
+    background:#a03030;
+    box-shadow:0 0 16px rgba(255,60,60,.6);
+  }
+
+  .footer{
+    margin-top:10px;
+    font-size:12px;
+    color:#aaa;
+    text-align:center;
+  }
+
+  button{
+    margin-top:8px;
+    width:100%;
+    padding:8px;
+    background:#1f2a44;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:8px;
+    color:#eee;
+    font-weight:600;
+    cursor:pointer;
+  }
+</style>
 </head>
+
 <body>
-  <div class="title animate-pop">InésGame</div>
-  <!-- imagen pegi -->
-  <div class="subtitle-img fadeIn"><img src="imgs/pegi.png" alt="pegi"></div>
+<div class="wrap">
+  <h1>Sala de los Pasos Fugaces</h1>
 
-  <!-- Boton de start -->
-  <div class="start-button animate-pop tap-effect">Start <i class="fa-solid fa-play icon-play"></i></div>
+  <div class="hud">
+    <div>❤️ Vidas: <b id="hp">3</b></div>
+    <div>🧠 Paso: <b id="step">0</b></div>
+  </div>
 
-  <script src="script.js"></script>
+  <div class="board" id="board"></div>
+
+  <button id="start">Iniciar secuencia</button>
+
+  <div class="footer">
+    Memoriza. Pisa en orden. Fallo = −1 vida.
+  </div>
+</div>
+
+<script>
+const COLS = 3;
+const ROWS = 5;
+const FLASH_MS = 120;     // MUY rápido
+const GAP_MS   = 50;
+const PATH_LEN = 10;      // largo y difícil
+let lives = 3;
+let path = [];
+let step = 0;
+let active = false;
+let tiles = [];
+
+const board = document.getElementById("board");
+const hpEl = document.getElementById("hp");
+const stepEl = document.getElementById("step");
+
+function idx(x,y){ return y*COLS+x }
+function inBounds(x,y){ return x>=0 && y>=0 && x<COLS && y<ROWS }
+
+function build(){
+  board.innerHTML="";
+  tiles=[];
+  for(let y=0;y<ROWS;y++){
+    for(let x=0;x<COLS;x++){
+      const t=document.createElement("div");
+      t.className="tile";
+      t.dataset.x=x;
+      t.dataset.y=y;
+      t.onclick=()=>clickTile(x,y,t);
+      board.appendChild(t);
+      tiles.push(t);
+    }
+  }
+}
+
+function neighbors(c){
+  return [
+    {x:c.x+1,y:c.y},
+    {x:c.x-1,y:c.y},
+    {x:c.x,y:c.y+1},
+    {x:c.x,y:c.y-1}
+  ].filter(n=>inBounds(n.x,n.y));
+}
+
+function randomPath(){
+  const used=new Set();
+  const p=[{x:1,y:0}]; // empieza arriba-centro
+  used.add("1,0");
+
+  while(p.length<PATH_LEN){
+    const opts=neighbors(p[p.length-1])
+      .filter(n=>!used.has(`${n.x},${n.y}`));
+    if(!opts.length) return randomPath();
+    const n=opts[Math.floor(Math.random()*opts.length)];
+    used.add(`${n.x},${n.y}`);
+    p.push(n);
+  }
+  return p;
+}
+
+async function flash(){
+  active=false;
+  step=0;
+  stepEl.textContent=step;
+  tiles.forEach(t=>t.classList.remove("correct","wrong"));
+
+  for(const c of path){
+    const t=tiles[idx(c.x,c.y)];
+    t.classList.add("flash");
+    await wait(FLASH_MS);
+    t.classList.remove("flash");
+    await wait(GAP_MS);
+  }
+  active=true;
+}
+
+function clickTile(x,y,t){
+  if(!active) return;
+  const exp=path[step];
+
+  if(x===exp.x && y===exp.y){
+    t.classList.add("correct");
+    step++;
+    stepEl.textContent=step;
+    if(step===path.length){
+      active=false;
+      alert("✔ Cofre alcanzado");
+    }
+  }else{
+    t.classList.add("wrong");
+    active=false;
+    lives--;
+    hpEl.textContent=lives;
+    if(lives<=0){
+      alert("☠ Sin vidas");
+      return;
+    }
+    setTimeout(flash,300);
+  }
+}
+
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)) }
+
+document.getElementById("start").onclick=()=>{
+  path=randomPath();
+  flash();
+};
+
+build();
+</script>
 </body>
 </html>

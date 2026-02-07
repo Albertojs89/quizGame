@@ -1,0 +1,996 @@
+document.addEventListener("DOMContentLoaded", function(event) {
+	
+	
+	
+	//limpia_hackers_fdc ();
+	
+
+    jQuery.fn.exists = function() {
+        return this.length > 0;
+    };
+
+
+
+    setTimeout(function() {
+        traducciones_hard();
+
+    }, 3000);
+
+
+
+
+    etiquetar();
+    //mask_coco();
+    armar_trackings();
+    ajusta_widget_home();
+
+
+
+    traducciones_hard();
+
+
+    /*  lanza un EVENTO al enviar un formulario contact form 7    */
+    document.addEventListener('wpcf7mailsent', function(event) {
+
+
+        var foo = '';
+        var inputs = event.detail.inputs;
+        for (var i = 0; i < inputs.length; i++) {
+
+            foo = foo + inputs[i].value + "  ";
+        }
+
+        gtag('event', 'form_sent', {
+            'event_category': 'lead_coco',
+            'event_action': 'form_sent',
+            'event_label': foo
+        });
+
+    }, false);
+
+
+
+    traducciones_hard();
+
+    jQuery(document).on('pjax:end', function() {
+        //$('.woo-variation-swatches:has(:not(img))').addClass('variation-out-of-stock');
+        traducciones_hard();
+        //console.log ('Fin P AJAX JOKIN');
+    });
+
+    jQuery(document).bind("ajaxComplete", function() {
+
+        traducciones_hard();
+    });
+
+
+
+    jQuery('.cart-widget-opener').click(function() {
+
+
+        //console.log ('Cart widget opener CLICKED ! ');	
+
+        setTimeout(function() {
+
+
+            traducciones_hard();
+
+        }, 500);
+
+
+
+    });
+
+
+
+
+}); /* FIN document ready */
+
+window.addEventListener('resize', function(event) {
+
+
+
+
+});
+
+function etiquetar() {
+    jQuery('a[href^="mailto:"]').addClass('email_track');
+    jQuery('a[href^="tel:"]').addClass('tel_track');
+    jQuery('a[href^="https://api.whatsapp"]').addClass('whatsapp_track');
+    jQuery('a[href^="https://wa.me"]').addClass('whatsapp_track');
+}
+
+
+function armar_trackings() {
+    jQuery(".tel_track").click(function() {
+        gtag('event', 'click_telefono', {
+            'event_category': 'lead_coco',
+            'event_action': 'click_telefono',
+            'event_label': ''
+        });
+    });
+
+    jQuery(".email_track").click(function() {
+
+        foo = jQuery(this).html();
+        gtag('event', 'click_email', {
+            'event_category': 'lead_coco',
+            'event_action': 'click_email',
+            'event_label': ''
+        });
+
+
+    });
+    jQuery(".whatsapp_track").click(function() {
+
+        console.log('Bunga low');
+        gtag('event', 'click_whatsapp', {
+            'event_category': 'lead_coco',
+            'event_action': 'click_whatsapp',
+            'event_label': ''
+        });
+    });
+
+}
+
+
+
+
+function mask_coco() {
+
+    /*enmascara  teléfonos y emails para hacer un mejor seguimiento */
+    jQuery(".tel_track").each(function() {
+
+        jQuery(this).before('<a class="unmask_telefono">[ Click para ver Teléfono]</a>');
+        jQuery(this).hide();
+
+
+        jQuery('.unmask_telefono').click(function() {
+
+            jQuery(this).hide();
+            jQuery(this).next('.tel_track').show();
+            gtag('event', 'unmask_telefono', {
+                'event_category': 'lead_coco',
+                'event_action': 'unmask_telefono',
+                event_label: ''
+            });
+            armar_trackings();
+        });
+
+
+    });
+
+    jQuery(".email_track").each(function() {
+
+        jQuery(this).before('<a class="unmask_email">[ Click para ver Email]</a>');
+        jQuery(this).hide();
+        jQuery('.unmask_email').click(function() {
+            jQuery(this).hide();
+            jQuery(this).next('.email_track').show();
+            gtag('event', 'unmask_email', {
+                'event_category': 'lead_coco',
+                'event_action': 'unmask_email',
+                'event_label': ''
+            });
+            armar_trackings();
+        });
+
+
+    });
+
+
+
+
+}
+
+/* TRADUCCIONES HARDCODED */
+
+function traducciones_hard() {
+
+    // console.log('Ejecutando traducciones ');
+
+    jQuery('#tab-title-description > a:nth-child(1) > span:nth-child(1)').html('Modo de empleo');
+	
+	jQuery(document).ready(function ($) {
+  const productIDs = ["#product-39106", "#product-39123", "#product-39118", "#product-39114"];
+
+  productIDs.forEach(function (id) {
+    $(id).find("#tab-title-description > a > span").html("GUÍA DE TALLAS");
+  });
+});
+
+
+    jQuery('.tab-title-description > div:nth-child(1) > span:nth-child(1)').html('Modo de empleo');
+
+    jQuery('div.cart-widget-side .title.widget-title').html('Tu carrito');
+
+    jQuery('.close-side-widget > a:nth-child(1)').html('Cerrar');
+
+    jQuery('.wd-empty-mini-cart a.btn:nth-child(2)').html('Volver a la tienda');
+
+    jQuery('div.wd-wishlist-btn .wd-tooltip-label span').html('Añadir a la lista de deseos');
+
+    jQuery('.wd-toolbar-shop > a:nth-child(1) > span:nth-child(2)').html('Tienda');
+
+    jQuery('div.wd-header-wishlist:nth-child(2) > a:nth-child(1) > span:nth-child(2)').html('Lista de deseos');
+
+    jQuery('div.wd-header-cart:nth-child(3) > a:nth-child(1) > span:nth-child(2)').html('Carrito');
+
+    // jQuery('.wd-header-my-account > a:nth-child(1) > span:nth-child(2)').html('Mi cuenta');
+
+    jQuery('div.wd-header-compare .wd-tools-icon').html('Lista de deseos');
+
+    // jQuery('#menu-mobile-navigation > li.menu-item.menu-item-has-children.menu-item-account.wd-with-icon').html('$current_user->display_name');
+
+    jQuery('div.wd-header-wishlist').attr('title', 'Lista de deseos');
+
+    jQuery('div.wd-header-search').attr('title', 'Buscar');
+
+    jQuery('div.wd-header-search.wd-tools-element .wd-tools-icon').html('Buscar');
+
+    jQuery('.step-cart > a:nth-child(1) > span:nth-child(1)').html('Carrito de la compra');
+
+    jQuery('.step-checkout > a:nth-child(1) > span:nth-child(1)').html('Finalizar compra');
+
+    jQuery('.step-complete > span:nth-child(1)').html('Compra completada');
+
+    jQuery('.step-complete > span:nth-child(1)').html('Compra completada');
+
+    jQuery('#woocommerce_top_rated_products-10 > h5:nth-child(1)').html('Productos mejor valorados');
+
+    jQuery('div.product-grid-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > a:nth-child(1) > span:nth-child(2)').html('Añadir a la lista de deseos');
+
+    jQuery('div.product-grid-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(3) > a:nth-child(1) > span:nth-child(1)').html('Añadir a la lista de deseos');
+
+    jQuery('div.product-grid-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > a:nth-child(1) > span:nth-child(1)').html('Vista rápida');
+
+    jQuery('div.product-grid-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > a:nth-child(1) > span:nth-child(1)').html('Vista rápida');
+
+    jQuery('div.product-grid-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > a:nth-child(1) > span:nth-child(1)').html('Vista rápida');
+
+    jQuery('div.product-grid-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > a:nth-child(1) > span:nth-child(2)').html('Comparar');
+
+    jQuery('div.product-grid-item:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > a:nth-child(1) > span:nth-child(1)').html('Comparar');
+
+    jQuery('div.wd-header-compare:nth-child(3) > a:nth-child(1) > span:nth-child(2)').html('Comparar');
+
+    jQuery('p.wd-empty-compare').html('Tu lista de comparación esta vacía');
+
+    jQuery('#post-7592 > div:nth-child(1) > div:nth-child(2) > div:nth-child(5) > p:nth-child(1) > a:nth-child(1)').html('Seguir leyendo');
+
+    jQuery('.btn-read-more.more-link').html('Seguir leyendo');
+
+    jQuery('#categories-1 > h5:nth-child(1)').html('Categorias');
+
+    jQuery('#woodmart-recent-posts-2 > h5:nth-child(1)').html('Artículos recientes');
+
+    jQuery('#recent-comments-4 > h5:nth-child(1)').html('Comentarios recientes');
+
+
+
+    jQuery('div.wd-page-nav-btn:nth-child(1) > a:nth-child(1) > span:nth-child(1)').html('Más reciente');
+
+    jQuery('.wd-wishlist-head h4.title').html('Más reciente');
+
+    jQuery('.wd-wishlist-remove').html('Eliminar');
+
+    jQuery('.search-info-text > span:nth-child(1)').html('Empieza a escribir para buscar productos');
+
+    jQuery('div.wd-page-nav-btn:nth-child(3) > a:nth-child(1) > span:nth-child(1)').html('Más Antiguo');
+
+    jQuery('div.upsells-carousel > h3 > span').html('Se suelen comprar juntos');
+
+    jQuery('.wd-empty-wishlist').html('La lista de deseos esta vacía');
+
+    jQuery('.wd-empty-page-text').html('Aún no tienes productos en la lista de deseos. Encontrarás muchos productos interesantes en nuestras Tienda');
+
+    jQuery('.return-to-shop > a:nth-child(1)').html('Volver a la tienda');
+
+    jQuery('.wd-show-sidebar-btn > a:nth-child(1)').html('Mostrar la barra lateral');
+
+    jQuery('span.wd-toolbar-label:nth-child(1)').html('Filtros');
+
+    jQuery('div.wd-header-wishlist:nth-child(3) > a:nth-child(1) > span:nth-child(2)').html('Lista de deseos');
+
+    jQuery('div.wd-design-5:nth-child(4) > a:nth-child(1) > span:nth-child(2)').html('Carrito');
+
+    jQuery('.searchform input.s').attr('placeholder', 'Buscar producto');
+
+    jQuery('div.wc_gc_field:nth-child(1) > input:nth-child(2)').attr('placeholder', 'Escribe el email de la persona que va a recibir el cheque');
+
+    jQuery('div.wc_gc_field:nth-child(2) > input:nth-child(2)').attr('placeholder', 'Escribe tu email para recibir una copia');
+
+    jQuery('div.wc_gc_field:nth-child(1) > label:nth-child(1)').html('Para');
+
+    jQuery('div.wc_gc_field:nth-child(3) > label:nth-child(1)').html('De parte de');
+
+    jQuery('div.wc_gc_field:nth-child(4) > label:nth-child(1)').html('Mensaje de dedicatoria');
+
+    jQuery('div.wc_gc_field:nth-child(5) > label:nth-child(1)').html('Fecha de entrega');
+
+    jQuery('.datepicker.hasDatepicker').attr('placeholder', 'Ahora');
+
+    jQuery('.button.product_type_variable.add_to_cart_button span').html('Comprar');
+
+    jQuery('body.page-id-8547 .wd-add-btn-replace span').html('Comprar');
+
+    jQuery('div.wc_gc_field:nth-child(1) > input:nth-child(2)').attr('placeholder', 'Escribe el email de la persona que va a recibir el cheque');
+
+    jQuery('div.wc_gc_field:nth-child(2) > input:nth-child(2)').attr('placeholder', 'Escribe tu email para recibir una copia');
+
+    jQuery('div.wc_gc_field:nth-child(3) > input:nth-child(2)').attr('placeholder', 'Escribe tu nombre');
+
+    jQuery('div.wc_gc_field:nth-child(4) > textarea:nth-child(2) ').attr('placeholder', 'Escribe tu mensaje');
+
+    jQuery('#component_1664957493_inner > div:nth-child(3) > div:nth-child(1) > p:nth-child(2) > label:nth-child(1)').html('Productos disponibles');
+
+    jQuery('#component_option_thumbnail_7296 > div:nth-child(3) > button:nth-child(1)').html('SELECCIONA');
+
+    jQuery('.component_section_title.selected_option_label_wrapper .selected_option_label').html('Tu selección');
+
+    jQuery('.woocommerce-MyAccount-content > h2:nth-child(2)').html('Tu saldo');
+
+    jQuery('.woocommerce-MyAccount-content > form:nth-child(4) > h4:nth-child(3)').html('Añade el código de tu cheque regalo');
+
+    jQuery('.woocommerce-MyAccount-content > h2:nth-child(5)').html('Cheques regalo activos');
+
+    jQuery('table.woocommerce-orders-table:nth-child(6) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(1)').html('Fecha');
+
+    jQuery('table.woocommerce-orders-table:nth-child(6) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(2)').html('Código');
+
+    jQuery('table.woocommerce-orders-table:nth-child(6) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(3)').html('Saldo disponible');
+
+    jQuery('#post-9 > div > div > div > div > div > div > div > div > div > div.woocommerce-MyAccount-content > form > p:nth-child(9).woocommerce-form-row').remove();
+
+    jQuery('#post-9 > div > div > div > div > div > div > div > div > div > div.woocommerce-MyAccount-content > form > p:nth-child(10).woocommerce-form-row').remove();
+
+    jQuery('#post-9 > div > div > div > div > div > div > div > div > div > div.woocommerce-MyAccount-content > form > p:nth-child(11).woocommerce-form-row').remove();
+
+    jQuery('#post-9 > div > div > div > div > div > div > div > div > div > div.woocommerce-MyAccount-content > form > p:nth-child(11).woocommerce-form-row').remove();
+
+    jQuery('#product-8544 > div:nth-child(1) > div.row.product-image-summary-wrap > div > div > div.col-lg-6.col-12.col-md-6.text-center.summary.entry-summary > div > form > div > div.woocommerce_gc_giftcard_form > div.wc_gc_field.wc_gc_giftcard_delivery > a').remove();
+
+    // jQuery('table.woocommerce-orders-table:nth-child(6) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)').html('No tienes cheques regalo activos en este momento');
+
+    jQuery('.reset_variations').html('Borrar selección');
+
+    jQuery('table.woocommerce-orders-table:nth-child(6) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(4)').html('Expira');
+
+    jQuery(' .woocommerce-Giftcards.woocommerce-MyAccount-Giftcards-form .woocommerce-Button').html('Añadir a tu cuenta');
+
+
+    jQuery('.woocommerce-MyAccount-content > h2:nth-child(7)').html('Actividad');
+
+    jQuery('table.woocommerce-orders-table:nth-child(8) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(1)').html('Fecha');
+
+    jQuery('table.woocommerce-orders-table:nth-child(8) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(2)').html('Descripción');
+
+    jQuery('table.woocommerce-orders-table:nth-child(8) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(3)').html('Cantidad');
+
+    // jQuery('table.woocommerce-orders-table:nth-child(8) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1)').html('Aún no tienes ninguna actividad registrada');
+
+
+    jQuery('li.woocommerce-MyAccount-navigation-link:nth-child(4) > a:nth-child(1)').html('Cheques regalo');
+
+    jQuery('li.woocommerce-MyAccount-navigation-link:nth-child(7) > a:nth-child(1)').html('Lista de deseos');
+
+    jQuery('li.woocommerce-MyAccount-navigation-link:nth-child(8) > a:nth-child(1)').html('Cerrar sesión');
+
+    // jQuery('li.woocommerce-MyAccount-navigation-link:nth-child(9) > a:nth-child(1)').html('Cerrar sesión');
+
+    jQuery('.giftcards-link > a:nth-child(1)').html('Cheque regalo');
+
+    jQuery('.wishlist-link > a:nth-child(1)').html('Lista de deseos');
+
+    jQuery('.customer-logout-link > a:nth-child(1)').html('Cerrar sesión');
+
+    jQuery('.wd-sticky-add-to-cart.button.alt').html('Seleccionar opciones');
+
+    jQuery('.cart-discount.gift-card > th').html('Cheque regalo');
+
+    
+
+    // jQuery('#customer_login > div.col-12.col-md-6.col-login > form > p.woocommerce-FormRow.woocommerce-FormRow--wide.form-row.form-row-wide.form-row-password > label').html('Contraseña*');
+
+    jQuery('.wd-wishlist-btn  span').html('Añadir a lista de deseos');
+
+    jQuery('.bt.wc-backward').html('Volver a la tienda');
+
+    jQuery('.new.product-label').html('Top ventas');
+
+    jQuery('input[placeholder="Now"]').attr('placeholder', 'Ahora');
+
+    jQuery('input[placeholder="Enter code…"]').attr('placeholder', 'Introducir código');
+
+    jQuery('.registration-info').html('Registrarse en este sitio te permite acceder al estado e historial de tu pedido. Simplemente completa los campos a continuación y configuraremos una nueva cuenta para ti en un abrir y cerrar de ojos. Solo te pediremos la información necesaria para que el proceso de compra sea más rápido y sencillo.');
+
+    jQuery('.woocommerce-form-login__submit').html('Iniciar sesión');
+
+    jQuery('h2.wd-login-title:nth-child(2)').html('Acceder');
+
+    jQuery('.woocommerce-LostPassword').html('¿Has olvidado tu contraseña?');
+
+    jQuery('.woocommerce-form-login__rememberme > span:nth-child(2)').html('Recuérdame');
+
+    jQuery('span.out-of-stock').html('Sin stock');
+
+    jQuery('.login-form-side h3.title').html('ACCEDER');
+
+    jQuery('span.new.product-label').html('IN LOVE');
+
+    jQuery('.featured.product-label').html('TOP VENTAS');
+
+    jQuery('.woodmart-show-product-gallery').html('Click para agrandar');
+
+    // AGRANDAR IMAGEN
+
+    jQuery('.create-account-question > p:nth-child(1)').html('¿No tienes cuenta?');
+
+    jQuery('.create-account-button').html('Crea una cuenta');
+
+    // BORRAR PROVINCIAS
+
+    jQuery('option[value="CE"]').remove();
+    jQuery('li.select2-results__option:contains("Ceuta")').remove();
+
+    jQuery('option[value="ML"]').remove();
+    jQuery('li.select2-results__option:contains("Melilla")').remove();
+
+    jQuery('option[value="TF"]').remove();
+    jQuery('li.select2-results__option:contains("Santa Cruz de Tenerife")').remove();
+
+    jQuery('option[value="GC"]').remove();
+    jQuery('li.select2-results__option:contains("Las Palmas")').remove();
+
+    // TEXTOS ELEGIR MODO DE PAGO
+
+    jQuery('#payment > ul > li.wc_payment_method.payment_method_ppcp-gateway > div > p').html('Pagar via Paypal');
+    jQuery('#payment > ul > li.wc_payment_method.payment_method_bizumredsys > div > p').html('Pagar via Bizum');
+    jQuery('#payment > ul > li.wc_payment_method.payment_method_redsys > label').html('Pago con tarjeta de débito o crédito <img src="https://mimesissensations.com/wp-content/uploads/2025/07/tarjetas.webp" alt="Pago con tarjeta de débito o crédito"');
+	jQuery('#payment > ul > li.wc_payment_method.payment_method_insite > label').html('Tarjeta de débito o crédito <img src="https://mimesissensations.com/wp-content/uploads/2025/07/tarjetas-checkout.webp" alt="Pago con tarjeta de débito o crédito">');
+	
+	
+
+    jQuery('#add_payment_method > #payment > ul > li > label').html('Pago con tarjeta de débito o crédito <img src="https://mimesissensations.com/wp-content/plugins/woocommerce-gateway-redsys/assets/images/redsys.png" alt="Pago con tarjeta de débito o credito">');
+
+   
+
+
+    var foo_foo = setInterval(function() {
+        jQuery('.component_option_thumbnail_select').html('Seleccionar');
+    }, 300);
+
+    if (!jQuery('body').hasClass("lnd")) /* no añadir en las landings */ {
+
+        jQuery('.title-blog h3.entry-title').html('BEAUTY BLOG');
+
+    } else /* landings */ {
+        jQuery('.title-blog h3.entry-title').html(jQuery('.post-title').html());
+        jQuery('.post-title').remove();
+    }
+
+    jQuery('.wd-wishlist-btn span:not("wd-tooltip-label")').html('Añadir a la lista de deseos');
+    jQuery('.wd-compare-btn span:not("wd-tooltip-label")').html('Comparar');
+    jQuery('.quick-view span.wd-tooltip-label').html('Vista Rápida');
+
+    jQuery('.quick-view').each(function() {
+
+        var foo = jQuery(this).html();
+        let result = foo.replace("Quick view", "Vista rápida");
+        //console.log(result);
+        jQuery(this).html(result);
+
+    });
+
+    if (jQuery('td[data-title="Método"]').exists()) {
+
+        jQuery('td[data-title="Método"]').html(jQuery('td[data-title="Método"]').html().replace('terminada en 0000', ''));
+
+    }
+
+} 
+
+/* ------------ */
+
+
+/* COSAS JOKIN */
+
+document.addEventListener("DOMContentLoaded", function(event) {
+
+    ajusta_menu_coco();
+
+    /* GET LANDING PAGES JOKIN */
+
+    console.log('Cargando landings por AJAX EN JULIO DEL 2025');
+
+    jQuery.ajax({
+        type: 'POST',
+        url: '/wp-content/themes/woodmart-child/get-landings-coco.block.php',
+        dataType: "html", // add data type
+        success: function(data) {
+
+			if ( jQuery('body').hasClass('home') || jQuery('body').hasClass('single-post') )
+			{
+				jQuery('.main-page-wrapper > .container').append(data);
+			} else 
+			{		
+					jQuery('#row_footer_mimesis').append(data);
+			}
+			
+			
+            jQuery('#wd-66c47fc8ef9ad p').append('<br><a class="toggle_lnd">Landings</a>');
+            jQuery('.toggle_lnd').click(function() {
+                jQuery('.landings_coco_wawa').slideToggle();
+            });
+        }
+    });
+
+    /* PACK PERSONALIZABLE CERRAR PESTAÑA 1  */
+
+    setTimeout(function() {
+
+        /*jQuery('#component_1664957493_inner').hide(); */
+        jQuery('#component_1664957493').removeClass('open');
+        jQuery('#component_1664957493').addClass('closed');
+
+    }, 500); /* tiempo en milisegundos */
+
+
+    /*  conseguimos la IP del cliente y la guardamos en una cookie, para no hacer más de una consulta a la API */
+
+
+    //foo_client_ip = getCookie_popup_gabi('foo_client_ip');
+
+    //console.log  ('en principio vale ' + foo_client_ip );
+	
+	/*
+    if (foo_client_ip == null) {
+        jQuery.getJSON('https://api.db-ip.com/v2/free/self', function(data) {
+
+            //var foo_client_ip = 
+            //By using jquery json parser    
+            var obj = jQuery.parseJSON(JSON.stringify(data, null, 2));
+            var foo_client_ip = obj['ipAddress'];
+            //console.log ('The thing you wanted is ' + foo_client_ip);
+
+            setCookie_popup_gabi('foo_client_ip', foo_client_ip, 25200);
+
+            gtag('event', 'primera_visita', {
+                'event_category': 'primera_visita ' + foo_client_ip,
+                'event_action': 'ip:' + foo_client_ip,
+                'event_label': foo_client_ip
+            });
+
+            console.log('guardamos la cookie');
+        });
+
+    } else {
+        // console.log('la cookie y la variable ya existe, no hacemos consulta a la API ');
+    }
+	*/ 
+}); 
+
+
+jQuery(window).resize(function() {
+
+    ajusta_menu_coco();
+});
+
+jQuery(window).load(function() {
+
+    ajusta_menu_coco();
+});
+
+
+function ajusta_menu_coco() {
+
+    setTimeout(function() {
+
+        /* CAMBIA MENU HAMBURGUESA */
+
+        jQuery('body > div.website-wrapper > header > div > div > div > div > div.whb-column.whb-col-center.whb-visible-lg').addClass('menu_grande');
+
+        jQuery('body > div.website-wrapper > header > div > div > div > div > div.whb-column.whb-col-left.whb-visible-lg, body > div.website-wrapper > header > div > div > div > div > div.whb-column.whb-col-right.whb-visible-lg').addClass('menu_grande');
+
+        jQuery('body > div.website-wrapper > header > div > div > div > div > div.whb-column.whb-mobile-left.whb-hidden-lg').addClass('menu_pequeno');
+
+        jQuery('body > div.website-wrapper > header > div > div > div > div > div.whb-column.whb-mobile-center.whb-hidden-lg').addClass('menu_pequeno');
+
+        jQuery('.whb-mobile-right').addClass('menu_pequeno');
+
+        //return(1);
+
+        ancho_pantalla = jQuery(window).width();
+
+        // console.log ('ancho_pantalla ' + ancho_pantalla );
+
+        if (ancho_pantalla >= 1600) {
+            jQuery('.menu_grande').show();
+            jQuery('.menu_pequeno').hide();
+            //jQuery('.whb-general-header-inner').css('display','flex');
+
+        } else {
+            jQuery('.menu_grande').hide();
+            jQuery('.menu_pequeno').css('display', 'flex');
+            jQuery('.whb-general-header-inner').css('display', 'flex');
+
+            /*
+            jQuery('.site-logo img').attr('src','https://mimesissensations.com/wp-content/uploads/2022/06/Logo%7F-Mimesis-Sensations_Mesa-de-trabajo-1.png'); /* hack logo pequeño */
+            /*
+            jQuery('.site-logo img').css('max-width', '251px');
+            jQuery('.site-logo img').css('min-height', 'auto');
+            */
+        }
+
+    }, 500);
+
+}
+
+
+// POPUP TESTING
+
+// function setCookie_popup_gabi(cName, cValue, expMinutos) {
+//     let date = new Date();
+//     date.setTime(date.getTime() + (expMinutos * 60 * 1000));
+//     const expires = "expires=" + date.toUTCString();
+//     document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+// }
+
+// Apply setCookie
+
+// function getCookie_popup_gabi(name) {
+//     var dc = document.cookie;
+//     var prefix = name + "=";
+//     var begin = dc.indexOf("; " + prefix);
+//     if (begin == -1) {
+//         begin = dc.indexOf(prefix);
+//         if (begin != 0) return null;
+//     } else {
+//         begin += 2;
+//         var end = document.cookie.indexOf(";", begin);
+//         if (end == -1) {
+//             end = dc.length;
+//         }
+//     }
+//     // because unescape has been deprecated, replaced with decodeURI
+//     //return unescape(dc.substring(begin + prefix.length, end));
+//     return decodeURI(dc.substring(begin + prefix.length, end));
+// }
+
+// function doSomething() {
+
+//     var extended = getCookie_popup_gabi("woodmart_extended");
+
+//     if (extended != 'yes') {
+
+//         //console.log ('Extended por primera vez ');
+
+//         var myCookie = getCookie_popup_gabi("woodmart_popup_50");
+
+//         if (myCookie == null) {
+
+//             /*
+//             setCookie_popup_gabi('woodmart_extended', 'no existir cookie borro ', 10);
+//             console.log('Se supone que extended es YES - NO HAGO NADA');
+//             */
+
+//         } else {
+//             setCookie_popup_gabi('woodmart_popup_50', 'shown', 5);
+//             setCookie_popup_gabi('woodmart_extended', 'yes', 5);
+//         }
+
+//     } else {
+//         console.log('Se supone que extended es YES - NO HAGO NADA');
+
+//     }
+// }
+
+// setTimeout(function() {
+
+//     var d = new Date();
+//     document.cookie = "woodmart_current_time=" + d;
+//     doSomething();
+// }, 2000);
+
+/* ------------ */
+
+
+jQuery(window).scroll(function() {
+    ajusta_widget_home();
+});
+
+
+jQuery(document).ready(function() {
+    ajusta_widget_home();
+});
+
+jQuery(window).resize(function() {
+    ajusta_widget_home();
+});
+
+
+function ajusta_widget_home() {
+    var a, a2, a3, c;
+    a = jQuery('#slider_home_fdc').height();
+    a2 = jQuery('#slider_home_fdc').css('margin-bottom');
+    //a3 =  jQuery('.wd-rs-6448e3bd07bd8').css('padding');
+    a3 = jQuery('#first_row_home_fdc > .vc_column_container').css('padding');
+
+    //console.log ('Alto del slider:  ' + a + '  Margin bottom slider:  ' + parseInt(a2) + '  Padding de foto fila 2: ' + parseInt(a3) );
+
+    a = a + parseInt(a2) + parseInt(a3);
+    c = jQuery(window).scrollTop();
+
+    jQuery('.widget-home').css('position', 'absolute');
+    jQuery('.widget-home').prependTo('.main-page-wrapper');
+
+    //console.log ( c  );
+
+    if (c > a) {
+        jQuery('.widget-home').css('top', c + 18);
+        //console.log ('mayor ' + a + c  );
+    } else {
+        jQuery('.widget-home').css('top', a);
+        //console.log ('Menor ');
+
+    }
+
+}
+
+
+// function get_desc_home ()
+// {
+
+// 	/* descripcions en la home */
+
+// 	var pakito_son_;
+// 	// jQuery.ajax({
+// 	// 		type: 'GET',
+// 	// 		url: '/wp-content/themes/woodmart-child/get-short-description-coco.ajax.php',
+// 	// 		dataType: "json", // add data type
+// 	// 		success: function( data_ ) 
+// 	// 		{
+// 	// 				var a=0;
+// 	// 				for ( var foo of data_) 
+// 	// 				{
+// 	// 					//a++;						
+// 	// 					jQuery('.product-grid-item[data-id='+  foo.id  + '] .wd-entities-title').after('<div class="descript_home_product">'+ foo.the_excerpt +'</div>');  
+// 	// 					//console.log(foo.id);
+// 	// 					//console.log(foo.the_excerpt);
+// 	// 				} 	 
+// 	// 		}
+// 	// 		});
+// } 
+
+
+jQuery(document).ready(function() {
+
+    /*
+	get_desc_home();
+
+
+    jQuery('.main-page-wrapper, .products').on('load change', function() {
+
+        console.log('main page wrapper loaded ');
+
+        get_desc_home();
+
+
+    });
+
+    jQuery(document).on('pjax:end', function() {
+        console.log('main page wrapper loaded ');
+
+        get_desc_home();
+
+    });
+	*/
+
+    /* cambiar h3 por h1 en Blog y Landings */
+
+    var foo = jQuery('.single .page-title .entry-title').html();
+    jQuery('.single .page-title .entry-title').html();
+
+    jQuery('<h1 class="entry-title title fdc">' + foo + '</h1>').insertAfter(jQuery('.single .page-title .entry-title'));
+    jQuery('.single h3.entry-title').remove();
+
+
+    /* lanzar evento de META con las ventas */
+
+
+    setTimeout(function() {
+
+
+        if (window.location.href.indexOf('order-received') > -1) {
+
+
+            gtag('event', 'venta_ok_fdc');
+
+            evento_vender_facebook_fdc(foo);
+
+
+        }
+
+        /* lanzar evento de META con las ventas */
+
+        if (window.location.href.indexOf('/lnd/') > -1) {
+
+            console.log('landing_view_fdc');
+            gtag('event', 'landing_view_fdc');
+
+
+        }
+
+    }, 1500); /* esperar segundo y medio */
+
+
+
+});
+
+
+
+
+function evento_vender_facebook_fdc() {
+    fbq('track', 'PageView', {
+            "data": [{
+                "event_name": "Purchase",
+                "event_time": 1716979508,
+                "action_source": "website",
+                "user_data": {
+                    "em": [
+                        "7b17fb0bd173f625b58636fb796407c22b3d16fc78302d79f0fd30c2fc2fc068"
+                    ],
+                    "ph": [
+                        null
+                    ]
+                },
+                "custom_data": {
+                    "currency": "USD",
+                    "value": "142.52"
+                }
+            }]
+        }
+
+
+    ); /* fin fbq */
+
+}
+
+
+
+//  // Igualar altura de los bloques de texto en la página de ingrediente
+
+// window.addEventListener('load', setEqualHeights);
+// window.addEventListener('resize', setEqualHeights);
+
+// function setEqualHeights() {
+//   const elements = document.querySelectorAll('#row_container_ingredient .wd-text-block');
+
+//   let maxHeight = 0;
+
+//   // Reset heights to auto before recalculating
+//   elements.forEach(element => element.style.height = 'auto');
+
+//   // Find the tallest element
+//   elements.forEach(element => {
+//     const elementHeight = element.offsetHeight;
+//     if (elementHeight > maxHeight) {
+//       maxHeight = elementHeight;
+//     }
+//   });
+
+//   // Apply the max height to all elements
+//   elements.forEach(element => element.style.height = `${maxHeight}px`);
+// } 
+
+
+// ******  IGUALAR BLOQUES TEXTO PÁGINAS INGREDIENTES ******
+
+window.addEventListener('load', setEqualHeights);
+window.addEventListener('resize', setEqualHeights);
+
+function setEqualHeights() {
+    // Set the breakpoint for large screens (e.g., above 768px)
+    const isDesktop = window.innerWidth > 768;
+
+    // Only apply the equal heights on large screens
+    if (isDesktop) {
+        const elements = document.querySelectorAll('#row_container_ingredient .wd-text-block');
+
+        let maxHeight = 0;
+
+        // Reset heights to auto before recalculating
+        elements.forEach(element => element.style.height = 'auto');
+
+        // Find the tallest element
+        elements.forEach(element => {
+            const elementHeight = element.offsetHeight;
+            if (elementHeight > maxHeight) {
+                maxHeight = elementHeight;
+            }
+        });
+
+        // Apply the max height to all elements
+        elements.forEach(element => element.style.height = `${maxHeight}px`);
+    } else {
+        // Reset heights when on small screens
+        const elements = document.querySelectorAll('#row_container_ingredient .wd-text-block');
+        elements.forEach(element => element.style.height = 'auto');
+    }
+}
+
+// ****** OCULTAR INFORMACIÓN ADICIONAL DE LA VERSIÓN MOBILE DE LAS FICHAS DE PRODUCTO ******
+
+function hideAdditionalInfoTab() {
+    // Select all elements with the class "wd-accordion-item"
+    const accordionItems = document.querySelectorAll('.wd-accordion-item');
+
+    // Loop through each accordion item
+    accordionItems.forEach(item => {
+        // Check if the accordion item has a child div with the class "tab-title-additional_information"
+        const additionalInfoTab = item.querySelector('.tab-title-additional_information');
+
+        // If the element exists, apply display: none
+        if (additionalInfoTab) {
+            additionalInfoTab.style.display = 'none';
+        }
+    });
+}
+
+// Run the function on page load
+window.addEventListener('load', hideAdditionalInfoTab);
+
+
+
+
+// Select the div with the class "contenido-restyling"
+const contenidoRestyling = document.querySelector('.contenido-restyling');
+
+// Get all div elements in the document
+const allDivs = document.querySelectorAll('div');
+
+// Flag to start hiding divs after the "contenido-restyling" div
+let hide = false;
+
+allDivs.forEach(div => {
+    // Once we find the "contenido-restyling" div, set the flag to true
+    if (div === contenidoRestyling) {
+        hide = true;
+    }
+
+    // If we encounter a div with "wd-prefooter" or "footer-container", stop hiding
+    if (div.classList.contains('wd-prefooter') || div.classList.contains('footer-container')) {
+        hide = false;
+    }
+
+    // If the flag is true, hide all subsequent divs until we reach the stop condition
+    if (hide && div !== contenidoRestyling) {
+        div.style.display = 'none';
+    }
+});
+
+
+function limpia_hackers_fdc() {
+
+  setTimeout(function () {
+	var palabrejas = ['kazino', 'casino', 'pin up'];
+
+    jQuery.each(palabrejas, function (index, value) {
+      var buscar = value;
+      jQuery('a').each(function () {
+        var texto = jQuery(this).text().toLowerCase();
+		if (texto.indexOf(buscar) !== -1) {
+			jQuery(this).parent().replaceWith('<div class="hacker_limpio_fdc"></div>');
+			console.log('encontrado '+ buscar);
+        }
+        texto = jQuery(this).attr('href');
+		if (texto && texto.indexOf(buscar) !== -1) {
+			console.log('encontrado '+ buscar);
+          jQuery(this).parent().replaceWith('<div class="hacker_limpio_fdc"></div>');
+        }
+      });
+
+    }, 2000);
+
+  }); /* foreach */
+}
