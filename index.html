@@ -208,7 +208,7 @@ function clickTile(x,y,t){
   if(!active) return;
 
   const exp = PATH[step];
-
+ 
   if(x===exp.x && y===exp.y){
     t.classList.add("correct");
     step++;
@@ -237,6 +237,7 @@ document.getElementById("start").onclick=flash;
 document.getElementById("show").onclick=showPattern;
 
 build();
+
 </script>
 </body>
 </html>
