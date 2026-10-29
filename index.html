@@ -1,243 +1,315 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<title>HeroQuest – Sala de los Pasos Fugaces</title>
-
-<style>
-body{
-  margin:0;
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  background:#0b0e14;
-  font-family:system-ui, sans-serif;
-  color:#eee;
-}
-
-.wrap{
-  background:#121827;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:14px;
-  padding:16px;
-  width:320px;
-}
-
-h1{
-  font-size:14px;
-  margin:0 0 8px;
-  text-align:center;
-  font-weight:600;
-}
-
-.hud{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-bottom:10px;
-  color:#ccc;
-}
-
-.board{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(5,1fr);
-  gap:8px;
-}
-
-.tile{
-  aspect-ratio:1/1;
-  border-radius:10px;
-  background:#1a2438;
-  border:1px solid rgba(255,255,255,.08);
-  cursor:pointer;
-  transition:
-    background-color .18s ease,
-    box-shadow .18s ease;
-}
-
-/* iluminación suave */
-.tile.flash{
-  background:#ffd500;
-  box-shadow:0 0 14px rgba(255,213,0,.6);
-}
-
-/* patrón fijo (máster) */
-.tile.pattern{
-  background:#d6c15a;
-  box-shadow:0 0 10px rgba(255,213,0,.35);
-}
-
-.tile.correct{
-  background:#c9b400;
-}
-
-.tile.wrong{
-  background:#a03030;
-  box-shadow:0 0 16px rgba(255,60,60,.6);
-}
-
-button{
-  margin-top:8px;
-  width:100%;
-  padding:8px;
-  background:#1f2a44;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:8px;
-  color:#eee;
-  font-weight:600;
-  cursor:pointer;
-}
-
-button.secondary{
-  background:#182036;
-}
-
-.footer{
-  margin-top:8px;
-  font-size:12px;
-  color:#aaa;
-  text-align:center;
-}
-</style>
+  <meta charset="UTF-8" />
+  <title>Wiki / Glosario alfabético</title>
+  <!-- Enlazamos el CSS externo -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-<div class="wrap">
-  <h1>Sala de los Pasos Fugaces</h1>
+  <main class="wiki-container">
+    <!-- Título opcional -->
+    <h1 class="wiki-title"></h1>
 
-  <div class="hud">
-    <div>❤️ Vidas: <b id="hp">3</b></div>
-    <div>🧠 Paso: <b id="step">0</b></div>
-  </div>
+    <!-- =====================
+         NAVEGACIÓN ALFABETO
+         ===================== -->
+    <section class="alphabet-nav">
+      <!-- Flecha izquierda -->
+      <button class="alphabet-arrow alphabet-arrow--left" aria-label="Anterior letra">
+        &#10094;
+      </button>
 
-  <div class="board" id="board"></div>
+      <!-- Contenedor que hace scroll horizontal -->
+      <div class="alphabet-scroll" aria-label="Navegación por letras">
+        <div class="alphabet-list">
+          <!--
+            Cada letra se representa como un botón.
+            data-letter indica qué letra es.
+            Puedes añadir más letras fácilmente.
+          -->
+          <button class="alphabet-letter alphabet-letter--active" data-letter="A">A</button>
+          <button class="alphabet-letter" data-letter="B">B</button>
+          <button class="alphabet-letter" data-letter="C">C</button>
+          <button class="alphabet-letter" data-letter="D">D</button>
+          <button class="alphabet-letter" data-letter="E">E</button>
+          <button class="alphabet-letter" data-letter="F">F</button>
+          <button class="alphabet-letter" data-letter="G">G</button>
+          <button class="alphabet-letter" data-letter="H">H</button>
+          <button class="alphabet-letter" data-letter="I">I</button>
+          <button class="alphabet-letter" data-letter="J">J</button>
+          <button class="alphabet-letter" data-letter="K">K</button>
+          <button class="alphabet-letter" data-letter="L">L</button>
+          <button class="alphabet-letter" data-letter="M">M</button>
+          <button class="alphabet-letter" data-letter="N">N</button>
+          <button class="alphabet-letter" data-letter="O">O</button>
+          <button class="alphabet-letter" data-letter="P">P</button>
+          <button class="alphabet-letter" data-letter="Q">Q</button>
+          <button class="alphabet-letter" data-letter="R">R</button>
+          <button class="alphabet-letter" data-letter="S">S</button>
+          <button class="alphabet-letter" data-letter="T">T</button>
+          <button class="alphabet-letter" data-letter="U">U</button>
+          <button class="alphabet-letter" data-letter="V">V</button>
+          <button class="alphabet-letter" data-letter="W">W</button>
+          <button class="alphabet-letter" data-letter="X">X</button>
+          <button class="alphabet-letter" data-letter="Y">Y</button>
+          <button class="alphabet-letter" data-letter="Z">Z</button>
+        </div>
+      </div>
 
-  <button id="start">Iniciar secuencia</button>
-  <button id="show" class="secondary">Mostrar patrón (máster)</button>
+      <!-- Flecha derecha -->
+      <button class="alphabet-arrow alphabet-arrow--right" aria-label="Siguiente letra">
+        &#10095;
+      </button>
+    </section>
 
-  <div class="footer">
-    Empieza abajo. Termina arriba.
-  </div>
-</div>
+    <!-- =====================
+         PANEL DE TÉRMINOS
+         ===================== -->
+    <section class="terms-panel">
+      <!-- Letra seleccionada -->
+      <h2 class="terms-letter" id="termsLetter">A</h2>
 
-<script>
-const COLS = 3;
-const ROWS = 5;
-const FLASH_MS = 140;
-const GAP_MS   = 40;
+      <!-- Contenedor de lista de palabras -->
+      <ul class="terms-list" id="termsList">
+        <!-- Los términos se inyectan por JavaScript -->
+      </ul>
 
-/* 🔒 Patrón FIJO */
-const PATH = [
-  {x:1,y:4},
-  {x:0,y:4},
-  {x:0,y:3},
-  {x:1,y:3},
-  {x:2,y:3},
-  {x:2,y:2},
-  {x:1,y:2},
-  {x:1,y:1},
-  {x:0,y:1},
-  {x:1,y:1},
-  {x:1,y:0}
-];
+      <!-- Mensaje cuando no hay términos para esa letra -->
+      <p class="terms-empty-message" id="emptyMessage" hidden>
+        Todavía no hay términos para esta letra.
+      </p>
+    </section>
+  </main>
 
-let lives = 3;
-let step = 0;
-let active = false;
-let tiles = [];
+  <!-- =====================
+       JAVASCRIPT
+       ===================== -->
+  <script>
+    // ==========
+    // DATOS BASE
+    // ==========
+    
+    const glossary = {
+      A: [
+        {
+          term: "Alucinaje",
+          description: "Persona que alucina pepina."
+        },
+        {
+          term: "Almohada",
+          description: "Objeto mullido ideal para dormir la siesta perfecta."
+        },
+        {
+          term: "Amigo",
+          description: "Ser humano (o perrete) imprescindible para compartir memes."
+        },
+        {
+          term: "Alcachofa",
+          description: "Verdura infravalorada pero muy top al horno."
+        },
+        {
+          term: "Aguacate",
+          description: "Fruta cremosa que hace que todo lo que toque sea más delicioso."
+        },
+        {
+          term: "Anfitrión",
+          description: "Persona que recibe invitados y se asegura de que estén cómodos."
+        },
+        {
+          term: "Amanecer",
+          description: "Momento del día en que el sol se levanta y todo parece posible."
+        },
+        {
+          term: "Aventura",
+          description: "Experiencia emocionante que saca lo mejor de ti."
+        },
+        {
+          term: "Arcoíris",
+          description: "Fenómeno óptico que llena el cielo de colores y esperanza."
+        }
+        
+      ],
+      B: [
+        {
+          term: "Banner",
+          description: "Elemento gráfico que ocupa media pantalla y nadie mira pero todos clican sin querer."
+        },
+        {
+          term: "Breakpoint",
+          description: "Ese punto mágico en el que la web se rompe en móvil."
+        }
+      ],
+      C: [
+        {
+          term: "Component",
+          description: "Pieza reutilizable de UI que juras no tocar más… hasta el siguiente refactor."
+        }
+      ]
+      // Puedes seguir añadiendo letras: D: [...], E: [...], etc.
+    };
 
-const board = document.getElementById("board");
-const hpEl = document.getElementById("hp");
-const stepEl = document.getElementById("step");
+    // ==========================
+    // REFERENCIAS A ELEMENTOS DOM
+    // ==========================
+    const alphabetScroll = document.querySelector(".alphabet-scroll");
+    const alphabetLetters = document.querySelectorAll(".alphabet-letter");
+    const arrowLeft = document.querySelector(".alphabet-arrow--left");
+    const arrowRight = document.querySelector(".alphabet-arrow--right");
 
-function idx(x,y){ return y*COLS+x }
+    const termsLetter = document.getElementById("termsLetter");
+    const termsList = document.getElementById("termsList");
+    const emptyMessage = document.getElementById("emptyMessage");
 
-function build(){
-  board.innerHTML="";
-  tiles=[];
-  for(let y=0;y<ROWS;y++){
-    for(let x=0;x<COLS;x++){
-      const t=document.createElement("div");
-      t.className="tile";
-      t.dataset.x=x;
-      t.dataset.y=y;
-      t.onclick=()=>clickTile(x,y,t);
-      board.appendChild(t);
-      tiles.push(t);
+    // Guardamos la letra actualmente seleccionada
+    let currentLetter = "A";
+
+    // ======================
+    // FUNCIONES PRINCIPALES
+    // ======================
+
+    /**
+     * Marca visualmente una letra como activa (más grande, subrayada)
+     * y actualiza la variable currentLetter.
+     */
+    function setActiveLetter(letterButton) {
+      // Quitamos la clase activa de todas las letras
+      alphabetLetters.forEach(btn =>
+        btn.classList.remove("alphabet-letter--active")
+      );
+
+      // Marcamos esta como activa
+      letterButton.classList.add("alphabet-letter--active");
+
+      // Actualizamos la letra actual
+      currentLetter = letterButton.dataset.letter;
+
+      // Actualizamos el título de la sección de términos
+      termsLetter.textContent = currentLetter;
+
+      // Hacemos que la letra seleccionada quede centrada lo máximo posible
+      letterButton.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest"
+      });
     }
-  }
-}
 
-function clearStates(){
-  tiles.forEach(t=>{
-    t.classList.remove("flash","correct","wrong","pattern");
-  });
-}
+    /**
+     * Pinta en pantalla la lista de términos para la letra actual.
+     * Si no hay términos, muestra un mensaje.
+     */
+    function renderTermsForCurrentLetter() {
+      const terms = glossary[currentLetter] || [];
 
-async function flash(){
-  active=false;
-  step=0;
-  stepEl.textContent=step;
-  clearStates();
+      // Limpiamos la lista anterior
+      termsList.innerHTML = "";
 
-  for(const c of PATH){
-    const t=tiles[idx(c.x,c.y)];
-    t.classList.add("flash");
-    await wait(FLASH_MS);
-    t.classList.remove("flash");
-    await wait(GAP_MS);
-  }
+      if (!terms.length) {
+        // No hay términos: mostramos mensaje
+        emptyMessage.hidden = false;
+        return;
+      }
 
-  active=true;
-}
+      // Sí hay términos: ocultamos mensaje
+      emptyMessage.hidden = true;
 
-/* 👁️ Mostrar patrón fijo */
-function showPattern(){
-  active=false;
-  step=0;
-  stepEl.textContent=step;
-  clearStates();
+      // Creamos cada item de la lista
+      terms.forEach(termObj => {
+        const li = document.createElement("li");
+        li.className = "term-item";
 
-  for(const c of PATH){
-    tiles[idx(c.x,c.y)].classList.add("pattern");
-  }
-}
+        // Botón con el nombre de la palabra
+        const button = document.createElement("button");
+        button.className = "term-title";
+        button.type = "button";
+        button.textContent = termObj.term;
 
-function clickTile(x,y,t){
-  if(!active) return;
+        // Descripción que se desplegará
+        const desc = document.createElement("p");
+        desc.className = "term-description";
+        desc.textContent = termObj.description;
 
-  const exp = PATH[step];
- 
-  if(x===exp.x && y===exp.y){
-    t.classList.add("correct");
-    step++;
-    stepEl.textContent=step;
-
-    if(step===PATH.length){
-      active=false;
-      alert("✔ El cofre se abre");
+        li.appendChild(button);
+        li.appendChild(desc);
+        termsList.appendChild(li);
+      });
     }
-  }else{
-    t.classList.add("wrong");
-    active=false;
-    lives--;
-    hpEl.textContent=lives;
-    if(lives<=0){
-      alert("☠ Sin vidas");
-      return;
+
+    /**
+     * Maneja el clic en una letra del abecedario.
+     */
+    function handleLetterClick(event) {
+      const button = event.target.closest(".alphabet-letter");
+      if (!button) return;
+
+      setActiveLetter(button);
+      renderTermsForCurrentLetter();
     }
-    setTimeout(flash,350);
-  }
-}
 
-function wait(ms){ return new Promise(r=>setTimeout(r,ms)) }
+    /**
+     * Maneja el clic en una palabra del listado para desplegar/ocultar
+     * su descripción con una animación suave.
+     */
+    function handleTermClick(event) {
+      const titleButton = event.target.closest(".term-title");
+      if (!titleButton) return;
 
-document.getElementById("start").onclick=flash;
-document.getElementById("show").onclick=showPattern;
+      const item = titleButton.parentElement;
 
-build();
+      // UNA descripción abierta a la vez,
+      
+      
+      document
+        .querySelectorAll(".term-item--open")
+        .forEach(openItem => {
+          if (openItem !== item) {
+            openItem.classList.remove("term-item--open");
+          }
+        });
+      
 
-</script>
+      // Alternamos el estado abierto/cerrado
+      item.classList.toggle("term-item--open");
+    }
+
+    /**
+     * Desplaza suavemente el scroll horizontal del abecedario cuando
+     * se pulsan las flechas laterales.
+     */
+    function scrollAlphabet(direction) {
+      const amount = 200; // píxeles a desplazar cada vez
+      const delta = direction === "left" ? -amount : amount;
+
+      alphabetScroll.scrollBy({
+        left: delta,
+        behavior: "smooth"
+      });
+    }
+
+    // ======================
+    // LISTENERS / EVENTOS
+    // ======================
+
+    // Clic en letras
+    document
+      .querySelector(".alphabet-list")
+      .addEventListener("click", handleLetterClick);
+
+    // Clic en palabras (desplegar descripción)
+    termsList.addEventListener("click", handleTermClick);
+
+    // Flechas izquierda/derecha
+    arrowLeft.addEventListener("click", () => scrollAlphabet("left"));
+    arrowRight.addEventListener("click", () => scrollAlphabet("right"));
+
+    // ======================
+    // INICIALIZACIÓN
+    // ======================
+
+    // Al cargar la página, marcamos la letra A como activa
+    // y pintamos sus términos (si existen).
+    renderTermsForCurrentLetter();
+  </script>
 </body>
 </html>

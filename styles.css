@@ -1,215 +1,210 @@
-body{
-  background-color: #F2ECD8;
+/* ===========================
+   ESTILOS GENERALES
+   =========================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-
-/* efecto popup rebote */
-
-@keyframes popMedal {
-  0% { transform: scale(0.7);}
-  60% { transform: scale(1.08);}
-  100% { transform: scale(1);}
-}
-.animate-pop {
-  animation: popMedal 0.45s cubic-bezier(.68,-0.55,.27,1.55);
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background-color: #ffffff;
+  color: #111111;
 }
 
-/* ---------------- */
-
-@keyframes fadeIn {
-  0% { opacity: 0; transform: scale(0.95); visibility: visible;}
-  16.67% { opacity: 1; transform: scale(1); visibility: visible;}
-  83.33% { opacity: 1; transform: scale(1); visibility: visible;}
-  99.99% { opacity: 0; transform: scale(0.95); visibility: visible;}
-  100% { opacity: 0; transform: scale(0.95); visibility: hidden;}
-}
-.fadeIn {
-  animation: fadeIn 6s ease-out forwards;
-  visibility: hidden;
+.wiki-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 24px 80px;
 }
 
-
-/* Efecto de hundimiento al hacer clic/tap */
-.tap-effect {
-  transition: transform 0.12s cubic-bezier(.4, 0, .2, 1);
+.wiki-title {
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 40px;
 }
 
-.tap-effect:active {
-  transform: scale(0.95);
+/* ===========================
+   NAVEGACIÓN ALFABETO
+   =========================== */
+
+.alphabet-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 60px;
 }
 
-.title{
-  font-family: "Pacifico", cursive;
-  text-align: center;
-  font-size: 3em;
-  margin-top: 40px;
-  color: #BF5672;
-}
-
-.subtitle-img{
-  text-align: center;
-  margin-top: 40px;
-}
-
-.subtitle-img img{
-  width: 50px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 20%;
-}
-
-.start-button{
-  font-family: "Freckle Face", system-ui;
-  color: #F2BF80;
-  text-align: center;
-  font-size: 3em;
-  margin: 80px auto;
-  width: 160px;
-  padding: 10px;
-  background-color: #BF5672;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Flechas izquierda/derecha */
+.alphabet-arrow {
+  border: none;
+  background: transparent;
+  font-size: 28px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  padding: 8px 10px;
+  border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.start-button:hover {
-  background-color: #A84561;
+.alphabet-arrow:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
 }
 
-.back-button {
-  font-family: "Freckle Face", system-ui;
-  color: #BF5672;
-  text-align: center;
-  font-size: 2em;
-  position: fixed;
-  top: 20px;
-  left: 20px;
+/* Contenedor con scroll horizontal */
+.alphabet-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge antiguos */
+  flex: 1;
+}
+
+/* Ocultar barra de scroll en navegadores WebKit */
+.alphabet-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.alphabet-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 48px; /* separación entre letras */
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+/* Letras individuales */
+.alphabet-letter {
+  border: none;
+  background: transparent;
+  font-size: 164px;
+  line-height: 1;
   cursor: pointer;
-  transition: color 0.3s ease;
- 
-  .back{
-    margin-right: 10px;
-    
+  padding: 0;
+  transition: transform 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  border-bottom: 4px solid transparent;
+}
+
+/* Estado activo: más grande y subrayado */
+.alphabet-letter--active {
+  transform: scale(1.35);
+  color: #2f80ed; /* azul suave */
+  border-color: #2f80ed; /* azul suave tipo subrayado navegador */
+}
+
+/* ===========================
+   PANEL DE TÉRMINOS
+   =========================== */
+
+.terms-panel {
+  max-width: 420px;
+  /* Separación visual con el abecedario */
+}
+
+.terms-letter {
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+
+.terms-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  /* 🔽 Alto máximo del listado de palabras */
+  max-height: 260px;
+
+  /* Aparece scroll vertical cuando hay muchas palabras */
+  overflow-y: auto;
+
+  /* Un poco de padding para que el scroll no tape el texto */
+  padding-right: 8px;
+}
+
+
+/* Cada término (palabra + descripción) */
+.term-item {
+  margin-bottom: 12px;
+  border-radius: 6px;
+  padding: 4px 0;
+  transition: background 0.25s ease;
+}
+
+.term-item--open {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Botón con la palabra */
+.term-title {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+/* Descripción desplegable */
+.term-description {
+  margin: 0;
+  margin-left: 12px;
+  margin-top: 4px;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.4;
+  color: #444;
+
+  /* Estado inicial: oculto */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-4px);
+  transition:
+    max-height 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Cuando el item está abierto, mostramos la descripción */
+.term-item--open .term-description {
+  max-height: 200px; /* suficiente para 3–4 líneas */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mensaje sin resultados */
+.terms-empty-message {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #777;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+@media (max-width: 768px) {
+  .wiki-container {
+    padding-top: 24px;
+  }
+
+  .alphabet-letter {
+    font-size: 48px;
+  }
+
+  .alphabet-list {
+    gap: 32px;
+  }
+
+  .terms-panel {
+    margin-top: 40px;
   }
 }
-
-.icon-play {
-  margin-left: 10px;
-  color: #F2BF80;
-}
-
-/* Pantalla de pregunta */
-.question-container {
-  margin: 60px auto;
-  max-width: 600px;
-  position: relative;
-}
-
-.question-label {
-  font-family: "Freckle Face", system-ui;
-  background-color: #F2994A;
-  color: white;
-  padding: 8px 25px;
-  border-radius: 20px;
-  display: inline-block;
-  font-size: 1.4em;
-  position: relative;
-  left: 30px;
-  top: 20px;
-  z-index: 2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.speech-bubble {
-  background-color: #FFFEF2;
-  border-radius: 60% 40% 40% 60% / 50% 60% 40% 50%;
-  padding: 60px 40px 40px 40px;
-  min-height: 200px;
-  margin-top: -10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  position: relative;
-}
-
-.bubble-content {
-  font-family: "Freckle Face", system-ui;
-  font-size: 2.1em;
-  color: #F28157;
-  text-align: center;
-  padding: 50px;
-}
-
-/* Contenedor de respuestas */
-#answers-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 0 20px;
-}
-
-.answer-button {
-  font-family: "Freckle Face", system-ui;
-  background-color: #F2BF80;
-  color: whitesmoke;
-  padding: 20px 30px;
-  border-radius: 15px;
-  font-size: 1.5em;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.answer-button:hover {
-  background-color: #7AACC2;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* Mensaje de error */
-.error-message {
-  font-family: "Freckle Face", system-ui;
-  background-color: #F28157;
-  color: white;
-  padding: 15px 25px;
-  border-radius: 15px;
-  font-size: 1.3em;
-  text-align: center;
-  max-width: 600px;
-  margin: 20px auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  animation: popMedal 0.45s cubic-bezier(.68,-0.55,.27,1.55);
-}
-
-/* Preguntas con imágenes */
-#answers-container.image-answers {
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 30px;
-}
-
-#answers-container.image-answers .answer-button {
-  width: 250px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.answer-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.answer-label {
-  font-size: 0.9em;
-  margin-top: 5px;
-}
-
